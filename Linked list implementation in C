@@ -1,0 +1,139 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node 
+{
+    int data;
+    struct node * next;    
+};
+struct node * GetNewNode(int num)
+{
+    struct node * newnode;
+	
+    newnode=(struct node *) malloc(sizeof(struct node ));
+    if(!newnode)
+    {
+        printf("memory error\n");
+        return;
+    }
+    newnode->data=num;
+return newnode;
+}
+void Append(struct node ** head, int num)
+{
+    struct node * last;
+	last = *head;
+	struct node * newnode = GetNewNode(num);
+    newnode->next=NULL;
+   
+    if(*head==NULL)
+    {    
+        *head = newnode;
+		Display(*head);	
+        return ;
+    }
+   
+    while(last->next!=NULL)
+    {
+		last=(last)->next;
+    }
+        last->next= newnode;
+		Display(*head);	
+        return ;  
+	
+}
+void AddAtBegin(struct node ** head, int num)
+{
+    struct node * newnode;
+	newnode=GetNewNode(num);
+	newnode->next=*head;
+	*head=newnode;
+	Display(*head);
+	
+}
+void AddAfter( struct node * head,int index, int num)
+{
+	struct node * newnode=GetNewNode(num);
+	struct node * headcopy =head;
+	int i=1;
+	while(i<index && head!=NULL)
+	{
+		i++;
+		head=head->next;
+	}
+	if(i==index)
+	{
+		newnode->next=head->next;
+		head->next=newnode;
+	}
+	else
+	{
+		printf("entered index in not available");
+	}
+	Display(headcopy);
+}
+void Display(struct node * head)
+{
+    while(head!=NULL)
+    {
+        printf("%d ",head->data);
+        head=head->next;
+    }
+printf("\n");
+}
+void Delete(struct node ** head,int index)
+{
+    
+	if(index==1)
+	{
+		*head = (*head)->next;
+	}
+	else
+	{
+		struct node * prev;
+		prev= *head;
+		int i=1;
+		while(i<index-1 && prev!=NULL)
+		{
+			i++;
+			prev=prev->next;
+		}
+		if(i==index-1)
+		{
+			prev->next=(prev->next)->next;
+		}
+		else
+		{
+			printf("entered index in not available");
+		}
+	}	
+	Display(*head);
+}
+int main()
+{
+    struct node * ll=NULL;
+    Append(&ll,3);
+
+    Append(&ll,5);
+  
+Append(&ll,7);
+
+    Append(&ll,9);
+
+AddAtBegin(&ll,2);
+
+AddAtBegin(&ll,1);
+
+AddAtBegin(&ll,0);
+
+AddAfter(ll,4,4);
+
+AddAfter(ll,6,6);
+
+AddAfter(ll,8,8);
+
+Delete(&ll,1);
+
+Delete(&ll,3);
+
+    return 0;
+}
