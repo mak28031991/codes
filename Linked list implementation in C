@@ -29,6 +29,7 @@ void Append(struct node ** head, int num)
     {    
         *head = newnode;
 		Display(*head);	
+		printf("Length of Linked List is %d \n",Length(*head));
         return ;
     }
    
@@ -38,6 +39,7 @@ void Append(struct node ** head, int num)
     }
         last->next= newnode;
 		Display(*head);	
+		printf("Length of Linked List is %d \n",Length(*head));
         return ;  
 	
 }
@@ -48,6 +50,7 @@ void AddAtBegin(struct node ** head, int num)
 	newnode->next=*head;
 	*head=newnode;
 	Display(*head);
+	printf("Length of Linked List is %d \n",Length(*head));
 	
 }
 void AddAfter( struct node * head,int index, int num)
@@ -70,6 +73,7 @@ void AddAfter( struct node * head,int index, int num)
 		printf("entered index in not available");
 	}
 	Display(headcopy);
+	printf("Length of Linked List is %d \n",Length(headcopy));
 }
 void Display(struct node * head)
 {
@@ -107,33 +111,102 @@ void Delete(struct node ** head,int index)
 		}
 	}	
 	Display(*head);
+	printf("Length of Linked List is %d \n",Length(*head));
 }
+int Length(struct node * head)
+{
+	int count=1;
+	while(head->next!=NULL)
+	{
+		count++;
+		head= head->next;
+	}
+	return count;
+}
+void Search(struct node * head, int x)
+{
+	int count=1;
+	if(head == NULL)
+	{
+		printf("Linked list is empty\n");
+		return;
+	}
+	
+	while(head!=NULL)
+	{
+		if(head->data==x)
+		{
+			printf("%d is found at node no: %d\n",x,count);
+			return;
+		}
+		else
+		{
+			count++;
+			head= head->next;
+		}
+	}
+	printf("node with %x not found\n",x);
+	return ;
+}
+void NthNode(struct node * head, int n)
+{
+	int count=1;
+	if(n<=0 || n > Length(head))
+	{
+		printf(" Not a valid node.\n");
+		return;
+	}
+	if(head==NULL)
+	{
+		printf("Linked List is empty\n");
+		return;
+	}
+	while(head!=NULL && count!=n)
+	{
+		head=head->next;
+		count++;
+	}
+	
+		printf("Element at %d node is %d \n",n,head->data);
+		return;
+	
+	
+	
+}
+
 int main()
 {
     struct node * ll=NULL;
+	Search(ll,8);
     Append(&ll,3);
-
+	
     Append(&ll,5);
-  
-Append(&ll,7);
-
+	
+	Append(&ll,7);
+	
     Append(&ll,9);
 
-AddAtBegin(&ll,2);
+	AddAtBegin(&ll,2);
+	
+	AddAtBegin(&ll,1);
 
-AddAtBegin(&ll,1);
+	AddAtBegin(&ll,0);
 
-AddAtBegin(&ll,0);
+	AddAfter(ll,4,4);
+	
+	AddAfter(ll,6,6);
 
-AddAfter(ll,4,4);
+	AddAfter(ll,8,8);
 
-AddAfter(ll,6,6);
+	Delete(&ll,1);
 
-AddAfter(ll,8,8);
-
-Delete(&ll,1);
-
-Delete(&ll,3);
-
+	Delete(&ll,3);
+	Search(ll,5);
+	Search(ll,3);
+	Search(ll,7);
+	Search(ll,17);
+	NthNode(ll,5);
+	NthNode(ll,2);
+	
     return 0;
 }
