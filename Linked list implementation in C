@@ -18,6 +18,93 @@ struct node * GetNewNode(int num)
     newnode->data=num;
 return newnode;
 }
+
+void ReverseLinkedList(struct node **head)
+{
+	struct node * prev= NULL;
+	struct node * curr=*head;
+	struct node * next;
+	while(curr!=NULL)
+	{
+		next=curr->next;
+		curr->next=prev;
+		prev=curr;
+		curr=next;
+	}	
+	*head=prev;
+	Display(*head);
+}
+void ReverseLinkedListRecursive(struct node **head_ref)
+{
+	struct node* first;
+    struct node* rest;
+      
+    /* empty list */
+    if (*head_ref == NULL)
+       return;   
+ 
+    /* suppose first = {1, 2, 3}, rest = {2, 3} */
+    first = *head_ref;  
+    rest  = first->next;
+ 
+    /* List has only one node */
+    if (rest == NULL)
+       return;   
+ 
+    /* reverse the rest list and put the first element at the end */
+    ReverseLinkedListRecursive(&rest);
+    first->next->next  = first;  
+     
+    /* tricky step -- see the diagram */
+    first->next  = NULL;          
+ 	printf("head is %d\n",rest->data);
+    /* fix the head pointer */
+    *head_ref = rest;  	
+	
+	Display(*head_ref);
+}
+
+void ReverseLinkedListRecursive2(struct node **h,struct node *head)
+{
+	if(head==NULL)
+	return;
+	struct node *first=head;
+	struct node *second= (head)->next;
+	ReverseLinkedListRecursive2(h,second);
+	if(second)
+	{
+	second->next=first;
+ 
+ 
+    }
+    else
+    {
+    	*h=first;
+    }
+    first->next=NULL;
+    //*head=first;
+ 
+}
+void FloydCycleFinding(struct node * head)
+{
+	struct node * fast, *slow;
+	fast= head;
+	slow=head;
+	while(slow!=NULL && fast!=NULL && fast->next!=NULL)
+	{
+		fast=fast->next->next;
+		slow=slow->next;
+		if(slow==fast)
+		{
+			printf("cycle is there\n");
+		return;
+		}
+		
+	}
+	printf("no cycle is there\n");
+	return;
+	
+}
 void Append(struct node ** head, int num)
 {
     struct node * last;
@@ -207,6 +294,17 @@ int main()
 	Search(ll,17);
 	NthNode(ll,5);
 	NthNode(ll,2);
-	
+	ReverseLinkedList(&ll);
+	ReverseLinkedListRecursive(&ll);
+	struct node* head = NULL;
+ 
+  	Append(&head, 20);
+  	Append(&head, 4);
+  	Append(&head, 15);
+  	Append(&head, 10);
+ 
+  /* Create a loop for testing */
+  	//head->next->next->next->next = head;
+  	FloydCycleFinding(head);
     return 0;
 }
